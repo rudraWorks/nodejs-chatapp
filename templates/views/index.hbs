@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="/images/icon.ico" type="image/gif" sizes="16x16">
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <title>Chat App</title>
+</head>    
+<body>
+    {{> header}}
+    
+    <center>
+         A rudra pratap singh production
+       <br><br>
+        <div id="messages" class="screenClass">
+         <p>
+             <pre id="data"> </pre> 
+         </p>
+            
+        </div>
+        <div id="main">
+           
+            <form action="/formSubmit"  method="get">
+             Enter your message: <input type="text" name="message" id="messageBox">
+            <br>
+            <br>
+            <div id="submitBtn" onclick="sendFunc()">Send Message</div>
+            <button type="submit" id="submitFormBtn" style="display: none;">Send</button>
+            {{!-- <button id="message_refresh">REFRESH</button> --}}
+            </form>
+        </div>
+    </center>
+</body>
+<script>
+    function sendFunc()
+    {
+        
+        if(document.getElementById('messageBox').value==="")
+        {  
+            alert('message box cannot be empty!')
+           
+        }
+        else document.getElementById('submitFormBtn').click()
+    }
+     const url="https://my-nodejs-chatapp1.herokuapp.com/messagesApi";
+    // const url="https://reqjres.in/api/users/1";//+Math.floor(Math.random()*100);
+    let screen=document.getElementById('data');
+  //  let spinner=document.getElementById('loading');
+  //  window.scrollTo(0,document.querySelector(".screenClass").scrollHeight);
+    setInterval(show,70)
+    function show()
+    {
+        
+        
+        const xhr=new XMLHttpRequest();
+        xhr.open('GET',url,true);
+        
+        xhr.onloadstart=function(){
+        //  spinner.style.display="block";
+        }
+
+        xhr.onload=function(){
+        //   spinner.style.display="none";
+            screen.innerHTML= JSON.parse( this.responseText).data;
+        }
+        xhr.send();
+    }
+</script>
+</html>
